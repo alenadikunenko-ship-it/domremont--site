@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ДомРемонт — ремонт квартир под ключ</title>
+  <meta name="description" content="Ремонт квартир под ключ с фиксированной сметой, понятными сроками и онлайн-калькулятором стоимости." />
+  <style>
+    :root{
+      --bg:#f5f5f0;
+      --card:#ffffff;
+      --text:#262626;
+      --muted:#666;
+      --line:#e6e6df;
+      --lime:#c7f04b;
+      --lime-dark:#8aa900;
+      --hero:#6a6258;
+      --shadow:0 14px 40px rgba(0,0,0,.08);
+      --radius:28px;
+      --container:1240px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      color:var(--text);
+      background:#ecece7;
+      line-height:1.5;
+    }
+    img{max-width:100%;display:block}
+    a{text-decoration:none;color:inherit}
+    button,input,select,textarea{font:inherit}
+    .container{max-width:var(--container);margin:0 auto;padding:0 16px}
+    .shell{
+      margin:18px auto;
+      border-radius:34px;
+      overflow:hidden;
+      background:var(--bg);
+      border:1px solid rgba(255,255,255,.75);
+      box-shadow:0 18px 60px rgba(0,0,0,.08);
+    }
+    .section{padding:56px 0}
+    .section-soft{background:rgba(255,255,255,.55)}
+    .eyebrow{
+      display:inline-flex;
+      padding:7px 12px;
+      border-radius:999px;
+      background:rgba(199,240,75,.22);
+      color:#678100;
+      font-size:11px;
+      font-weight:700;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      margin-bottom:14px;
+    }
+    h1,h2,h3,p{margin:0}
+    h2{font-size:clamp(32px,4vw,46px);line-height:1.08}
+    .section-text{max-width:720px;color:var(--muted);margin-top:16px}
+    .grid{display:grid;gap:18px}
+    .hero{
+      position:relative;
+      min-height:740px;
+      border-radius:30px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.08);
+      margin:20px;
+      padding:18px;
+      background:
+        linear-gradient(90deg,rgba(87,80,71,.88) 0%,rgba(87,80,71,.72) 34%,rgba(87,80,71,.34) 58%,rgba(87,80,71,.1) 100%),
+        url("https://i.imgur.com/rYAdfnV.jpg") center/cover no-repeat;
+    }
+    .nav{
+      max-width:1180px;
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+      padding:12px 16px;
+      border-radius:999px;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.12);
+      backdrop-filter: blur(12px);
+      color:#fff;
+    }
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{
+      width:40px;height:40px;border-radius:50%;
+      display:grid;place-items:center;
+      background:var(--lime);
+      color:#111;
+      font-weight:700;
+      box-shadow:0 4px 14px rgba(0,0,0,.12);
+    }
+    .brand-title{font-size:14px;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+    .brand-sub{font-size:11px;color:rgba(255,255,255,.7)}
+    .nav-links{display:flex;gap:28px;font-size:14px;color:rgba(255,255,255,.88)}
+    .nav-links a:hover{color:#fff}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      min-height:48px;padding:0 26px;border:none;border-radius:999px;
+      cursor:pointer;transition:.2s ease;
+    }
+    .btn-primary{background:var(--lime);color:#111;font-weight:700}
+    .btn-primary:hover{transform:translateY(-1px)}
+    .btn-secondary{border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.10);color:#fff}
+    .hero-content{max-width:760px;color:#fff;padding:72px 0 0}
+    .badge{
+      display:inline-flex;align-items:center;gap:8px;
+      border-radius:999px;padding:9px 14px;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.15);
+      font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+      backdrop-filter: blur(8px);
+    }
+    .hero h1{font-size:clamp(36px,7vw,72px);line-height:.98;letter-spacing:-.04em;margin-top:18px}
+    .hero p{
+      margin-top:18px;max-width:580px;
+      font-size:clamp(15px,2vw,18px);
+      color:rgba(255,255,255,.86)
+    }
+    .hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:36px}
+    .hero-tags,.feature-list,.stats,.types,.cases,.two-col,.form-grid{display:grid;gap:16px}
+    .hero-note{
+      display:inline-flex;margin-top:16px;padding:9px 14px;border-radius:999px;
+      background:var(--lime);color:#111;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.14em;
+    }
+    .feature-list{margin-top:24px;max-width:760px;grid-template-columns:repeat(2,minmax(0,1fr))}
+    .feature{
+      display:flex;align-items:flex-start;gap:12px;
+      padding:16px;border-radius:20px;
+      background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.10);color:#fff
+    }
+    .type-card,.case-card,.stat-card,.review-card,.calc-card,.about-card,.form-card{
+      background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow)
+    }
+    .types{grid-template-columns:repeat(4,minmax(0,1fr))}
+    .type-card,.case-card,.review-card,.calc-card,.about-card,.form-card{border-radius:28px}
+    .type-card{padding:24px}
+    .type-price{
+      display:inline-flex;padding:6px 12px;border-radius:999px;
+      background:#eef9cc;color:#6b8c00;font-size:12px;font-weight:700
+    }
+    .type-card h3{font-size:24px;margin-top:16px}
+    .type-card p{margin-top:12px;color:var(--muted)}
+    .type-card a{display:inline-flex;margin-top:18px;color:#6b8c00;font-weight:700}
+    .cases{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .case-card{overflow:hidden}
+    .case-content{padding:18px}
+    .ba-wrap{
+      position:relative;height:340px;background:#ddd;overflow:hidden;cursor:ew-resize;
+      user-select:none;-webkit-user-select:none
+    }
+    .ba-wrap img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .ba-before{clip-path:inset(0 calc(100% - var(--pos,50%)) 0 0)}
+    .ba-line{
+      position:absolute;top:0;bottom:0;left:var(--pos,50%);width:2px;background:#fff;transform:translateX(-1px)
+    }
+    .ba-handle{
+      position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+      width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.96);
+      display:grid;place-items:center;box-shadow:0 10px 28px rgba(0,0,0,.16);font-weight:700
+    }
+    .ba-label{
+      position:absolute;top:14px;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700
+    }
+    .ba-label.left{left:14px;background:rgba(0,0,0,.55);color:#fff}
+    .ba-label.right{right:14px;background:var(--lime);color:#111}
+    .range{width:100%;margin-top:12px}
+    .two-col{grid-template-columns:.95fr 1.05fr;align-items:center}
+    .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .stat-card{padding:22px;border-radius:24px}
+    .stat-card strong{display:block;font-size:38px;color:#6b8c00}
+    .stat-card span{display:block;margin-top:8px;color:var(--muted)}
+    .about-card{padding:30px;background:#6c6a60;color:#fff}
+    .about-card p{color:rgba(255,255,255,.86);margin-top:16px}
+    .review-card{padding:26px}
+    .stars{display:flex;gap:4px;color:#99bc00;font-size:24px}
+    .review-quote{font-size:clamp(24px,3vw,34px);line-height:1.35;margin-top:14px}
+    .review-name{margin-top:16px;color:#6b8c00;font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+    .review-actions{display:flex;gap:12px;margin-top:20px}
+    .circle-btn{
+      width:46px;height:46px;border-radius:999px;border:1px solid #d8d8d1;background:#fff;cursor:pointer
+    }
+    .form-grid{grid-template-columns:.9fr 1.1fr}
+    .calc-card{padding:28px;background:var(--lime);color:#111}
+    .calc-old{font-size:14px;text-decoration:line-through;color:#5d7300;margin-top:10px}
+    .calc-price{font-size:clamp(40px,5vw,62px);font-weight:800;margin-top:4px}
+    .calc-box{margin-top:16px;padding:16px;border-radius:22px;background:rgba(255,255,255,.6)}
+    .form-card{padding:26px}
+    .field{display:grid;gap:8px}
+    .label{font-size:14px;font-weight:600;color:#444}
+    input[type="text"],input[type="tel"],select,textarea{
+      width:100%;min-height:46px;border:1px solid #ddd;border-radius:16px;padding:12px 14px;background:#fff;outline:none
+    }
+    textarea{min-height:120px;resize:vertical}
+    .choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    .choice{
+      padding:14px 16px;border:1px solid #ddd;border-radius:18px;background:#fff;text-align:left;cursor:pointer;transition:.2s ease
+    }
+    .choice.active{border-color:#c8ea5a;background:#f8ffe2}
+    .fineprint,.submit-msg{font-size:13px;color:#666;line-height:1.6}
+    .submit-msg{
+      padding:14px 16px;border-radius:18px;border:1px solid #d7f08f;background:#f7ffd8;color:#5c7300
+    }
+    footer{
+      border-top:1px solid rgba(0,0,0,.05);
+      background:#f0f0ea;padding:28px 0
+    }
+    .footer-wrap{display:flex;justify-content:space-between;gap:24px;align-items:center}
+    .floating{
+      position:fixed;right:22px;bottom:22px;z-index:40
+    }
+    .hidden{display:none!important}
+    @media (max-width: 1100px){
+      .types,.cases,.two-col,.form-grid{grid-template-columns:1fr 1fr}
+      .hero{min-height:auto}
+    }
+    @media (max-width: 860px){
+      .nav-links,.nav .desktop-only{display:none}
+      .feature-list,.types,.cases,.two-col,.stats,.form-grid{grid-template-columns:1fr}
+      .hero-content{padding-top:46px}
+      .review-actions{margin-top:16px}
+      .footer-wrap{flex-direction:column;align-items:flex-start}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="shell">
+      <section class="hero">
+        <div class="nav">
+          <div class="brand">
+            <div class="logo">⌂</div>
+            <div>
+              <div class="brand-title">ДомРемонт</div>
+              <div class="brand-sub">Ремонт квартир под ключ</div>
+            </div>
+          </div>
+          <div class="nav-links">
+            <a href="#types">Виды ремонта</a>
+            <a href="#cases">До / После</a>
+            <a href="#about">О компании</a>
+            <a href="#reviews">Отзывы</a>
+          </div>
+          <a class="btn btn-primary desktop-only" href="#calc">Оставить заявку</a>
+        </div>
+
+        <div class="container hero-content">
+          <div class="badge">٪ Скидка 20% до конца недели</div>
+          <h1>Ремонт квартиры под ключ<br>от 4 500 ₽/м²</h1>
+          <p>Сделаем ремонт без затяжек, скрытых доплат и бесконечных переделок. Фиксируем смету в договоре, соблюдаем сроки и сразу показываем понятную стоимость работ именно под ваш объект.</p>
+          <div class="hero-actions">
+            <a href="#calc" class="btn btn-primary">Рассчитать стоимость за 1 минуту</a>
+            <a href="#cases" class="btn btn-secondary">Смотреть реальные кейсы</a>
+          </div>
+          <div class="hero-note">Скидка 20% действует до конца недели</div>
+
+          <div class="feature-list">
+            <div class="feature">✓ Фиксируем цену в договоре</div>
+            <div class="feature">✓ Еженедельные фото- и видеоотчёты</div>
+            <div class="feature">✓ Гарантия до 3 лет на работы</div>
+            <div class="feature">✓ Поэтапная оплата без скрытых доплат</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="types" class="section">
+        <div class="container">
+          <div class="eyebrow">Блок 2</div>
+          <h2>Подберём формат ремонта под ваш бюджет и задачу</h2>
+          <p class="section-text">Работаем под разные цели: для жизни, для сдачи в аренду, для перепродажи и для новостройки без отделки. Помогаем выбрать вариант, который даст лучший результат без переплаты.</p>
+          <div class="types" style="margin-top:26px">
+            <div class="type-card">
+              <div class="type-price">от 4 500 ₽/м²</div>
+              <h3>Косметический ремонт</h3>
+              <p>Быстро обновим квартиру: стены, потолки, полы, свет, сантехника и чистовая отделка.</p>
+              <a href="#calc">Узнать стоимость →</a>
+            </div>
+            <div class="type-card">
+              <div class="type-price">от 8 900 ₽/м²</div>
+              <h3>Капитальный ремонт</h3>
+              <p>Полная переделка пространства с заменой инженерии и продуманной чистовой отделкой.</p>
+              <a href="#calc">Узнать стоимость →</a>
+            </div>
+            <div class="type-card">
+              <div class="type-price">от 12 900 ₽/м²</div>
+              <h3>Дизайнерский ремонт</h3>
+              <p>Интерьер под ключ с дорогой визуальной подачей и контролем на каждом этапе.</p>
+              <a href="#calc">Узнать стоимость →</a>
+            </div>
+            <div class="type-card">
+              <div class="type-price">от 6 500 ₽/м²</div>
+              <h3>Ремонт новостроек</h3>
+              <p>Берём квартиру с нуля и доводим до полного заселения: от черновых этапов до уборки.</p>
+              <a href="#calc">Узнать стоимость →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="cases" class="section section-soft">
+        <div class="container">
+          <div class="eyebrow">Блок 3</div>
+          <h2>Примеры ДО и ПОСЛЕ</h2>
+          <p class="section-text">Двигайте разделитель и сразу смотрите, как меняется пространство после ремонта.</p>
+          <div class="cases" style="margin-top:26px">
+            <div class="case-card">
+              <div class="case-content">
+                <h3>Коридор — до и после ремонта</h3>
+                <p class="section-text">Из строительного коридора с открытой кирпичной кладкой — в аккуратное светлое пространство с чистовой отделкой и готовностью к заселению.</p>
+              </div>
+              <div class="ba-wrap" data-pos="50">
+                <img src="https://i.imgur.com/GunjkzS.jpg" alt="После">
+                <img class="ba-before" src="https://i.imgur.com/zEpfk62.jpg" alt="До">
+                <div class="ba-line"><div class="ba-handle">⇄</div></div>
+                <div class="ba-label left">До</div>
+                <div class="ba-label right">После</div>
+              </div>
+              <div class="case-content"><input class="range" type="range" min="0" max="100" value="50"></div>
+            </div>
+
+            <div class="case-card">
+              <div class="case-content">
+                <h3>Спальня — до и после ремонта</h3>
+                <p class="section-text">Из пустой черновой комнаты — в спокойную современную спальню с мягкой палитрой, освещением и ощущением уюта.</p>
+              </div>
+              <div class="ba-wrap" data-pos="50">
+                <img src="https://i.imgur.com/uYZnkVi.jpg" alt="После">
+                <img class="ba-before" src="https://i.imgur.com/UkKhpb8.jpg" alt="До">
+                <div class="ba-line"><div class="ba-handle">⇄</div></div>
+                <div class="ba-label left">До</div>
+                <div class="ba-label right">После</div>
+              </div>
+              <div class="case-content"><input class="range" type="range" min="0" max="100" value="50"></div>
+            </div>
+
+            <div class="case-card">
+              <div class="case-content">
+                <h3>Кухня-гостиная — до и после ремонта</h3>
+                <p class="section-text">Из старого пространства — в светлую современную кухню-гостиную с продуманным зонированием, чистой геометрией и визуально дорогой подачей.</p>
+              </div>
+              <div class="ba-wrap" data-pos="50">
+                <img src="https://i.imgur.com/SOT7BTC.jpg" alt="После">
+                <img class="ba-before" src="https://i.imgur.com/BGiktUA.jpg" alt="До">
+                <div class="ba-line"><div class="ba-handle">⇄</div></div>
+                <div class="ba-label left">До</div>
+                <div class="ba-label right">После</div>
+              </div>
+              <div class="case-content"><input class="range" type="range" min="0" max="100" value="50"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="section">
+        <div class="container two-col">
+          <div>
+            <div class="eyebrow">Блок 4</div>
+            <h2>О компании</h2>
+            <p class="section-text">Мы сделали структуру блока так, чтобы он не выглядел формальным. Он усиливает доверие, снимает возражения и помогает дожать посетителя до заявки.</p>
+            <div class="stats" style="margin-top:24px">
+              <div class="stat-card"><strong>12 лет</strong><span>на рынке ремонта квартир</span></div>
+              <div class="stat-card"><strong>250+</strong><span>объектов сданы точно в срок</span></div>
+              <div class="stat-card"><strong>3 года</strong><span>гарантия на выполненные работы</span></div>
+              <div class="stat-card"><strong>1 окно</strong><span>для всех вопросов клиента</span></div>
+            </div>
+          </div>
+          <div class="about-card">
+            <h3 style="font-size:34px;line-height:1.15">Почему нам доверяют ремонт, когда нужен результат без сюрпризов</h3>
+            <p>Мы строим понятный клиенту процесс, где заранее известны этапы, сроки, смета и ответственные.</p>
+            <p>Сначала погружаемся в задачу: кто будет жить в квартире, какой бюджет комфортен, насколько важна скорость, нужна ли помощь с материалами и комплектацией.</p>
+            <p>После этого собираем решение: смета, календарный план, закупка, контроль качества и сдача объекта без неприятных сюрпризов.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="reviews" class="section section-soft">
+        <div class="container">
+          <div class="eyebrow">Блок 5</div>
+          <h2>Отзывы клиентов</h2>
+          <p class="section-text">Это реальные впечатления клиентов после ремонта: что понравилось, как уложились в сроки и почему нас рекомендуют знакомым.</p>
+          <div class="review-card" style="margin-top:24px">
+            <div class="stars">★★★★★</div>
+            <div id="reviewQuote" class="review-quote">«Смету получили в день обращения, все этапы были прозрачны, а квартира после ремонта выглядит дороже, чем мы ожидали. Самое главное — без нервов и переделок.»</div>
+            <div id="reviewName" class="review-name">Анна и Максим</div>
+            <div class="review-actions">
+              <button class="circle-btn" id="prevReview">←</button>
+              <button class="circle-btn" id="nextReview">→</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="calc" class="section">
+        <div class="container form-grid">
+          <div>
+            <div class="eyebrow">Блок 6</div>
+            <h2>Калькулятор расчёта стоимости ремонта</h2>
+            <p class="section-text">Заполните форму и сразу получите ориентировочную стоимость, срок ремонта и персональный бонус. Это самый быстрый способ понять бюджет без выезда и долгих созвонов.</p>
+            <div class="calc-card" style="margin-top:24px">
+              <div style="font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#617800">Ваш предварительный расчёт</div>
+              <div class="calc-old">Без скидки: <span id="calcOld">560 875 ₽</span></div>
+              <div class="calc-price" id="calcPrice">448 700 ₽</div>
+              <div class="calc-box">
+                <div><strong>Ориентировочный срок:</strong> <span id="calcDeadline">от 45 дней</span></div>
+                <div style="margin-top:6px"><strong>Бонус:</strong> <span id="calcGift">Выезд инженера и подробная смета бесплатно</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-card">
+            <form id="leadForm" class="grid" style="gap:18px">
+              <div class="field">
+                <label class="label" for="area">Площадь квартиры: <span id="areaValue">48</span> м²</label>
+                <input id="area" type="range" min="20" max="180" step="1" value="48">
+              </div>
+
+              <div class="field">
+                <div class="label">Тип ремонта</div>
+                <div class="choice-grid" id="repairTypeChoices">
+                  <button type="button" class="choice" data-value="cosmetic">Косметический</button>
+                  <button type="button" class="choice active" data-value="capital">Капитальный</button>
+                  <button type="button" class="choice" data-value="designer">Дизайнерский</button>
+                  <button type="button" class="choice" data-value="newbuild">Новостройка</button>
+                </div>
+              </div>
+
+              <div class="choice-grid">
+                <div class="field">
+                  <label class="label" for="rooms">Количество комнат</label>
+                  <select id="rooms">
+                    <option value="1">1 комната</option>
+                    <option value="2" selected>2 комнаты</option>
+                    <option value="3">3 комнаты</option>
+                    <option value="4">4+ комнаты</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label class="label" for="urgency">Приоритет</label>
+                  <select id="urgency">
+                    <option value="standard" selected>Оптимальный баланс</option>
+                    <option value="econom">Максимально экономно</option>
+                    <option value="urgent">Нужно быстрее</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="choice-grid">
+                <div class="field">
+                  <label class="label" for="name">Ваше имя</label>
+                  <input id="name" type="text" placeholder="Например, Анна" required>
+                </div>
+                <div class="field">
+                  <label class="label" for="phone">Телефон</label>
+                  <input id="phone" type="tel" placeholder="+7 (___) ___-__-__" required>
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label" for="comment">Комментарий к задаче</label>
+                <textarea id="comment" placeholder="Например: квартира в новостройке, нужна помощь с материалами и кухней"></textarea>
+              </div>
+
+              <button class="btn btn-primary" type="submit" id="submitBtn">Получить смету, срок и скидку</button>
+              <div class="fineprint">Нажимая кнопку, вы соглашаетесь на обработку персональных данных и получение консультации по вашему объекту.</div>
+              <div id="submitMsg" class="submit-msg hidden"></div>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <div class="container footer-wrap">
+          <div>
+            <div style="font-size:20px;font-weight:700">ДомРемонт</div>
+            <div style="margin-top:4px;color:#666">Ремонт квартир под ключ с фиксированной сметой и понятными сроками</div>
+          </div>
+          <div style="color:#666;display:grid;gap:6px;text-align:right">
+            <div>+7 (999) 123-45-67</div>
+            <div>hello@domremont.ru</div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <a class="floating btn btn-primary" href="#calc">Рассчитать стоимость</a>
+
+  <script>
+    const LEAD_CONFIG = {
+      mode: "demo",
+      formspreeUrl: "",
+      webhookUrl: "",
+      telegram: {
+        botToken: "",
+        chatId: ""
+      }
+    };
+
+    const reviews = [
+      ["Анна и Максим", "Смету получили в день обращения, все этапы были прозрачны, а квартира после ремонта выглядит дороже, чем мы ожидали. Самое главное — без нервов и переделок."],
+      ["Ирина, ЖК River Park", "Нам нужен был аккуратный современный ремонт без затяжки по срокам. Команда уложилась в дедлайн и держала нас в курсе на каждом этапе."],
+      ["Олег, инвестор", "Заказывал ремонт под аренду. Всё сделали практично, чисто и продающе. Квартира сдалась быстро, а бюджет остался под контролем."]
+    ];
+
+    const priceMap = { cosmetic: 4500, capital: 8900, designer: 12900, newbuild: 6500 };
+    let repairType = "capital";
+    let reviewIndex = 0;
+
+    const $ = (s, p = document) => p.querySelector(s);
+    const $$ = (s, p = document) => [...p.querySelectorAll(s)];
+
+    function roomMultiplier(v){ return v === "1" ? 1 : v === "2" ? 1.05 : v === "3" ? 1.1 : 1.16; }
+    function urgencyMultiplier(v){ return v === "urgent" ? 1.18 : v === "econom" ? 0.93 : 1; }
+    function formatPrice(v){ return Math.round(v).toLocaleString("ru-RU") + " ₽"; }
+
+    function calculate() {
+      const area = Number($("#area").value);
+      const rooms = $("#rooms").value;
+      const urgency = $("#urgency").value;
+      const price = Math.round(priceMap[repairType] * area * roomMultiplier(rooms) * urgencyMultiplier(urgency));
+      const oldPrice = Math.round(price / 0.8);
+      const gift = price > 500000 ? "Дизайн-проект санузла в подарок" : "Выезд инженера и подробная смета бесплатно";
+      const deadline = repairType === "cosmetic" ? "от 25 дней" : repairType === "capital" ? "от 45 дней" : repairType === "designer" ? "от 65 дней" : "от 35 дней";
+
+      $("#areaValue").textContent = area;
+      $("#calcPrice").textContent = formatPrice(price);
+      $("#calcOld").textContent = formatPrice(oldPrice);
+      $("#calcGift").textContent = gift;
+      $("#calcDeadline").textContent = deadline;
+
+      return { area, rooms, urgency, repairType, price, oldPrice, gift, deadline };
+    }
+
+    $("#area").addEventListener("input", calculate);
+    $("#rooms").addEventListener("change", calculate);
+    $("#urgency").addEventListener("change", calculate);
+
+    $$("#repairTypeChoices .choice").forEach(btn => {
+      btn.addEventListener("click", () => {
+        repairType = btn.dataset.value;
+        $$("#repairTypeChoices .choice").forEach(el => el.classList.remove("active"));
+        btn.classList.add("active");
+        calculate();
+      });
+    });
+
+    function renderReview() {
+      const [name, text] = reviews[reviewIndex];
+      $("#reviewName").textContent = name;
+      $("#reviewQuote").textContent = "«" + text + "»";
+    }
+    $("#prevReview").addEventListener("click", () => {
+      reviewIndex = (reviewIndex - 1 + reviews.length) % reviews.length;
+      renderReview();
+    });
+    $("#nextReview").addEventListener("click", () => {
+      reviewIndex = (reviewIndex + 1) % reviews.length;
+      renderReview();
+    });
+
+    function bindBeforeAfter(card) {
+      const wrap = $(".ba-wrap", card);
+      const range = $(".range", card);
+      const setPos = (value) => {
+        const pos = Math.max(0, Math.min(100, Number(value)));
+        wrap.style.setProperty("--pos", pos + "%");
+        range.value = pos;
+      };
+      setPos(wrap.dataset.pos || 50);
+      range.addEventListener("input", e => setPos(e.target.value));
+
+      let dragging = false;
+      const fromClientX = (clientX) => {
+        const rect = wrap.getBoundingClientRect();
+        const pos = ((clientX - rect.left) / rect.width) * 100;
+        setPos(pos);
+      };
+      wrap.addEventListener("mousedown", e => { dragging = true; fromClientX(e.clientX); });
+      window.addEventListener("mousemove", e => { if (dragging) fromClientX(e.clientX); });
+      window.addEventListener("mouseup", () => dragging = false);
+      wrap.addEventListener("touchstart", e => { if (e.touches[0]) fromClientX(e.touches[0].clientX); }, { passive: true });
+      wrap.addEventListener("touchmove", e => { if (e.touches[0]) fromClientX(e.touches[0].clientX); }, { passive: true });
+    }
+    $$(".case-card").forEach(bindBeforeAfter);
+
+    async function sendLead(payload) {
+      if (LEAD_CONFIG.mode === "formspree") {
+        if (!LEAD_CONFIG.formspreeUrl) throw new Error("Не указан formspreeUrl в LEAD_CONFIG");
+        const res = await fetch(LEAD_CONFIG.formspreeUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Accept": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) throw new Error("Ошибка отправки в Formspree");
+        return true;
+      }
+
+      if (LEAD_CONFIG.mode === "webhook") {
+        if (!LEAD_CONFIG.webhookUrl) throw new Error("Не указан webhookUrl в LEAD_CONFIG");
+        const res = await fetch(LEAD_CONFIG.webhookUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) throw new Error("Ошибка отправки на webhook");
+        return true;
+      }
+
+      if (LEAD_CONFIG.mode === "telegram") {
+        const { botToken, chatId } = LEAD_CONFIG.telegram || {};
+        if (!botToken || !chatId) throw new Error("Не указаны botToken/chatId для Telegram");
+        const text =
+`Новая заявка с сайта
+Имя: ${payload.name}
+Телефон: ${payload.phone}
+Площадь: ${payload.area} м²
+Тип ремонта: ${payload.repairType}
+Комнат: ${payload.rooms}
+Приоритет: ${payload.urgency}
+Расчёт: ${formatPrice(payload.price)}
+Срок: ${payload.deadline}
+Бонус: ${payload.gift}
+Комментарий: ${payload.comment || "-"}`;
+        const res = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ chat_id: chatId, text })
+        });
+        if (!res.ok) throw new Error("Ошибка отправки в Telegram");
+        return true;
+      }
+
+      return true;
+    }
+
+    $("#leadForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const calc = calculate();
+      const payload = {
+        ...calc,
+        name: $("#name").value.trim(),
+        phone: $("#phone").value.trim(),
+        comment: $("#comment").value.trim(),
+        submittedAt: new Date().toISOString(),
+        page: location.href
+      };
+
+      const msg = $("#submitMsg");
+      const btn = $("#submitBtn");
+      msg.classList.add("hidden");
+      btn.disabled = true;
+      btn.textContent = "Отправляем...";
+
+      try {
+        await sendLead(payload);
+        msg.textContent = LEAD_CONFIG.mode === "demo"
+          ? "Форма работает в демо-режиме. Чтобы получать реальные заявки, откройте LEAD_CONFIG внизу файла и вставьте свой Formspree URL, webhook или данные Telegram-бота."
+          : "Спасибо! Заявка отправлена. Менеджер свяжется с вами, уточнит детали и вышлет расчёт со сроками и скидкой.";
+        msg.classList.remove("hidden");
+        e.target.reset();
+        repairType = "capital";
+        $$("#repairTypeChoices .choice").forEach(el => el.classList.toggle("active", el.dataset.value === "capital"));
+        $("#area").value = 48;
+        $("#rooms").value = "2";
+        $("#urgency").value = "standard";
+        calculate();
+      } catch (err) {
+        msg.textContent = "Не удалось отправить заявку: " + err.message;
+        msg.classList.remove("hidden");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Получить смету, срок и скидку";
+      }
+    });
+
+    calculate();
+    renderReview();
+  </script>
+</body>
+</html>
